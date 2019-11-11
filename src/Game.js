@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react'
 import Cell from "./Cell";
 import {getNeighborsCount} from './Utils'
 
-const CELL_SIZE = 20;
-const WIDTH = 400;
-const HEIGHT = 400;
+const CELL_SIZE = 40;
+const WIDTH = 600;
+const HEIGHT = 600;
 
 const Game = () => {
     let rows = HEIGHT/CELL_SIZE;
@@ -24,8 +24,8 @@ const Game = () => {
 
     const makeCells = (board) => {
         let cells = [];
-        board.forEach((row, rowIndex) => {
-            row.forEach((col, colIndex) => {
+        board.map((row, rowIndex) => {
+            row.map((col, colIndex) => {
                 cells.push(
                     <Cell
                         key={[rowIndex,colIndex]}
@@ -57,16 +57,8 @@ const Game = () => {
     // 0 => 1 if count == 3
 
     const handleStartClick = () => {
-        if(!gameOn) {
-            setGameOn(gameOn => {
-                return !gameOn;
-            })
-            game(board);
-        }
-        else {
-            setGameOn(false);
-            clearTimeout(timeOutHandler);
-        }
+        setBoard(makeEmptyBoard());
+        game(board);
     }
 
     let timeOutHandler;
@@ -82,8 +74,7 @@ const Game = () => {
                 }
             });
         });
-        timeOutHandler = setTimeout(() => game(board), 1);
-        console.log(gameOn);
+        timeOutHandler = setTimeout(() => game(board), 1000);
     }
 
     const styles = {
@@ -104,7 +95,8 @@ const Game = () => {
             <div style={styles}>
                 {cells}
             </div>
-            <button onClick={handleStartClick}>{!gameOn ? 'Start' : 'Stop'}</button>
+            <button onClick={handleStartClick}>Game</button>
+
         </div>
     )
 };
